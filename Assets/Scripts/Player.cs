@@ -53,8 +53,10 @@ public class Player : MonoBehaviour
 
     public AudioClip jump;
 
+    public GameObject hackUI;
 
-
+    public Transform[] worlds;
+    public int currentWorld = 0;
 
     #endregion
 
@@ -104,7 +106,7 @@ public class Player : MonoBehaviour
         bool sprint = Input.GetKey(KeyCode.LeftControl);
         bool jump = Input.GetKeyDown(KeyCode.Space);
         bool pause = Input.GetKeyDown("j");
-
+       
 
 
 
@@ -127,9 +129,21 @@ public class Player : MonoBehaviour
 
         }
 
+        bool changeWorld = Input.GetKeyDown(KeyCode.Q);
 
-
-
+        if (changeWorld)
+        {
+            if (currentWorld == 0)
+            {
+                this.transform.position = worlds[1].position;
+                currentWorld = 1;
+            }
+            else if (currentWorld == 1)
+            {
+                this.transform.position = worlds[0].position;
+                currentWorld = 0;
+            }
+        }
 
     }
 
@@ -162,8 +176,9 @@ public class Player : MonoBehaviour
         bool isJumping = jump && isGrounded;
         bool isSprinting = sprint && t_vmove > 0;
         bool isAiming = aim;
+        bool hacking = Input.GetKey(KeyCode.Tab);
 
-
+       
 
 
         //Movement
@@ -186,12 +201,16 @@ public class Player : MonoBehaviour
         if (isSprinting) { normalCam.fieldOfView = Mathf.Lerp(normalCam.fieldOfView, baseFOV * sprintFOVModifier, Time.fixedDeltaTime * 8f); }
         else { normalCam.fieldOfView = Mathf.Lerp(normalCam.fieldOfView, baseFOV, Time.fixedDeltaTime * 8f); }
 
-        if (isAiming) { normalCam.fieldOfView = Mathf.Lerp(normalCam.fieldOfView, baseFOV * zoom, Time.fixedDeltaTime * 8f); }
+        if (hacking) { normalCam.fieldOfView = Mathf.Lerp(normalCam.fieldOfView, baseFOV * zoom, Time.fixedDeltaTime * 8f); }
 
         else { normalCam.fieldOfView = Mathf.Lerp(normalCam.fieldOfView, baseFOV, Time.fixedDeltaTime * 8f); }
 
 
         //UI
+        hackUI.SetActive(hacking);
+
+        
+        
 
 
     }
