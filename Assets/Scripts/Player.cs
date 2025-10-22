@@ -1,17 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Security.Cryptography;
-using System.Threading;
 using UnityEngine;
-
-using UnityEngine.UI;
-
-using System;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
-
-using System.Security.Permissions;
-using System.Diagnostics;
+using UnityEngine.UI;
+using static System.TimeZoneInfo;
 
 
 
@@ -39,7 +34,7 @@ public class Player : MonoBehaviour
 
     public Rigidbody rig;
 
-
+    public GameObject environment;
 
     private float movementCounter;
     private float idleCounter;
@@ -55,9 +50,16 @@ public class Player : MonoBehaviour
 
     public GameObject hackUI;
 
-    public Transform[] worlds;
+    
     public int currentWorld = 0;
 
+    public float transitionTime = 1f;
+    public Volume v;
+    public LensDistortion l;
+
+    public float distortionStrength = 1f; // how strong the warp looks
+    
+    private bool isTransitioning = false;
     #endregion
 
 
@@ -69,7 +71,9 @@ public class Player : MonoBehaviour
         current_health = max_health;
 
 
-
+        v.profile.TryGet(out l);
+        l.intensity.overrideState = true;
+        l.intensity.value = 0f;
 
         baseFOV = normalCam.fieldOfView;
 
@@ -106,7 +110,7 @@ public class Player : MonoBehaviour
         bool sprint = Input.GetKey(KeyCode.LeftControl);
         bool jump = Input.GetKeyDown(KeyCode.Space);
         bool pause = Input.GetKeyDown("j");
-       
+
 
 
 
@@ -131,23 +135,57 @@ public class Player : MonoBehaviour
 
         bool changeWorld = Input.GetKeyDown(KeyCode.Q);
 
-        if (changeWorld)
+        if (changeWorld && !isTransitioning)
         {
             if (currentWorld == 0)
             {
-                this.transform.position = worlds[1].position;
+                
+                StartCoroutine(WarpTransition(1));
                 currentWorld = 1;
             }
             else if (currentWorld == 1)
             {
-                this.transform.position = worlds[0].position;
+                
+                StartCoroutine(WarpTransition(0));
                 currentWorld = 0;
             }
         }
 
     }
 
+    IEnumerator WarpTransition(int world)
+    {
+        isTransitioning = true;
 
+        float elapsed = 0f;
+
+        // PHASE 1: Distort in (camera warps)
+        while (elapsed < transitionTime / 2f)
+        {
+            elapsed += Time.deltaTime;
+            l.intensity.value = Mathf.Lerp(0f, distortionStrength, elapsed / (transitionTime / 2f));
+            yield return null;
+        }
+
+        for (int i = 0; i < environment.transform.childCount; i++)
+        {
+            environment.transform.GetChild(i).GetComponent<ChangeMaterial>().changeMaterial(world);
+        }
+
+        elapsed = 0f;
+
+        // PHASE 2: Distort out (camera returns to normal)
+        while (elapsed < transitionTime / 2f)
+        {
+            elapsed += Time.deltaTime;
+            l.intensity.value = Mathf.Lerp(distortionStrength, 0f, elapsed / (transitionTime / 2f));
+            yield return null;
+        }
+
+        
+        l.intensity.value = 0f;
+        isTransitioning = false;
+    }
 
 
 
@@ -178,7 +216,7 @@ public class Player : MonoBehaviour
         bool isAiming = aim;
         bool hacking = Input.GetKey(KeyCode.Tab);
 
-       
+
 
 
         //Movement
@@ -209,45 +247,43 @@ public class Player : MonoBehaviour
         //UI
         hackUI.SetActive(hacking);
 
-        
+
+       
+
+        #endregion
+
+        #region Private Methods
+
         
 
 
+        #endregion
+
+        #region Public Methods
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #endregion
     }
-
-    #endregion
-
-    #region Private Methods
-
-
-
-
-    #endregion
-
-    #region Public Methods
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    #endregion
 }
