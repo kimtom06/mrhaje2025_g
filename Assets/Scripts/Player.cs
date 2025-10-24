@@ -1,21 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static System.TimeZoneInfo;
 
 
 
 public class Player : MonoBehaviour
 {
-    #region Variables
+  
 
 
-
+    public Weapon weapon;
     Vector3 curPos;
 
     private float t_adjustedSpeed;
@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
 
     public GameObject hackUI;
 
-    
+
     public int currentWorld = 0;
 
     public float transitionTime = 1f;
@@ -58,12 +58,12 @@ public class Player : MonoBehaviour
     public LensDistortion l;
 
     public float distortionStrength = 1f; // how strong the warp looks
-    
+
     private bool isTransitioning = false;
-    #endregion
+ 
 
 
-    #region MonoBehaviour Callbacks
+   
     private void Start()
     {
 
@@ -78,16 +78,6 @@ public class Player : MonoBehaviour
         baseFOV = normalCam.fieldOfView;
 
         //if (Camera.main) Camera.main.enabled = false;
-
-
-
-
-
-
-
-
-
-
     }
 
     public void Awake()
@@ -110,7 +100,7 @@ public class Player : MonoBehaviour
         bool sprint = Input.GetKey(KeyCode.LeftControl);
         bool jump = Input.GetKeyDown(KeyCode.Space);
         bool pause = Input.GetKeyDown("j");
-
+        bool attack = Input.GetKeyDown(KeyCode.Mouse0);
 
 
 
@@ -133,19 +123,24 @@ public class Player : MonoBehaviour
 
         }
 
+        if (attack)
+        {
+            weapon.Attack();
+        }
+
         bool changeWorld = Input.GetKeyDown(KeyCode.Q);
 
         if (changeWorld && !isTransitioning)
         {
             if (currentWorld == 0)
             {
-                
+
                 StartCoroutine(WarpTransition(1));
                 currentWorld = 1;
             }
             else if (currentWorld == 1)
             {
-                
+
                 StartCoroutine(WarpTransition(0));
                 currentWorld = 0;
             }
@@ -182,7 +177,7 @@ public class Player : MonoBehaviour
             yield return null;
         }
 
-        
+
         l.intensity.value = 0f;
         isTransitioning = false;
     }
@@ -246,44 +241,20 @@ public class Player : MonoBehaviour
 
         //UI
         hackUI.SetActive(hacking);
-
-
-       
-
-        #endregion
-
-        #region Private Methods
-
-        
-
-
-        #endregion
-
-        #region Public Methods
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        #endregion
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision == null) return;
+        if (collision.transform.CompareTag("Projectile"))
+        {
+            Destroy(collision.gameObject);
+
+            current_health -= 1;
+            if (current_health <= 0)
+            {
+                Debug.Log("DEAD");
+            }
+        }
+    }
+
 }
