@@ -7,70 +7,70 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using URPGlitch;
 
 
 
 public class Player : MonoBehaviour
 {
+
   
 
-
     public Weapon weapon;
+    [Header("Player Stats")]
     Vector3 curPos;
-
     private float t_adjustedSpeed;
     public float originalSpeed;
     private float speed;
-
     public float sprintModifier;
     public float jumpForce;
     public int max_health;
+    public float current_health;
 
+    [Header("Misc")]
     public Camera normalCam;
-
     public Transform groundDetector;
     public LayerMask ground;
     public float zoom;
-
     public Rigidbody rig;
-
     public GameObject environment;
-
     private float movementCounter;
     private float idleCounter;
-
     private float baseFOV;
     public float sprintFOVModifier;
-
-    public float current_health;
-
-
-
-    public AudioClip jump;
-
     public GameObject hackUI;
 
+    [Header("SFX")] 
+    public AudioClip jump;
 
-    public int currentWorld = 0;
+
+
+    [Header("Transition")]
+    public float lensStrength;
+    public float jitterStrength;
+    public float colorStrength;
+    public float digitalGlitchStrength;
 
     public float transitionTime = 1f;
     public Volume v;
     public LensDistortion l;
 
-    public float distortionStrength = 1f; // how strong the warp looks
-
+    
+    private DigitalGlitchVolume digitalGlitchVolume;
+    private AnalogGlitchVolume analogGlitchVolume;
     private bool isTransitioning = false;
- 
+    private int currentWorld = 0;
 
 
-   
+
     private void Start()
     {
 
 
         current_health = max_health;
 
-
+        v.profile.TryGet<AnalogGlitchVolume>(out analogGlitchVolume);
+        v.profile.TryGet<DigitalGlitchVolume>(out digitalGlitchVolume);
         v.profile.TryGet(out l);
         l.intensity.overrideState = true;
         l.intensity.value = 0f;
@@ -153,12 +153,15 @@ public class Player : MonoBehaviour
         isTransitioning = true;
 
         float elapsed = 0f;
-
+        
         // PHASE 1: Distort in (camera warps)
         while (elapsed < transitionTime / 2f)
         {
             elapsed += Time.deltaTime;
-            l.intensity.value = Mathf.Lerp(0f, distortionStrength, elapsed / (transitionTime / 2f));
+            l.intensity.value = Mathf.Lerp(l.intensity.value, lensStrength, elapsed / (transitionTime / 2f));
+            analogGlitchVolume.scanLineJitter.value = Mathf.Lerp(analogGlitchVolume.scanLineJitter.value, jitterStrength, elapsed / (transitionTime / 2f));
+            analogGlitchVolume.colorDrift.value = Mathf.Lerp(analogGlitchVolume.colorDrift.value, colorStrength, elapsed / (transitionTime / 2f));
+            digitalGlitchVolume.intensity.value = Mathf.Lerp(digitalGlitchVolume.intensity.value, digitalGlitchStrength, elapsed / (transitionTime / 2f));
             yield return null;
         }
 
@@ -173,7 +176,10 @@ public class Player : MonoBehaviour
         while (elapsed < transitionTime / 2f)
         {
             elapsed += Time.deltaTime;
-            l.intensity.value = Mathf.Lerp(distortionStrength, 0f, elapsed / (transitionTime / 2f));
+            l.intensity.value = Mathf.Lerp(lensStrength, 0, elapsed / (transitionTime / 2f));
+            analogGlitchVolume.scanLineJitter.value = Mathf.Lerp(jitterStrength, 0, elapsed / (transitionTime / 2f));
+            analogGlitchVolume.colorDrift.value = Mathf.Lerp(colorStrength, 0, elapsed / (transitionTime / 2f));
+            digitalGlitchVolume.intensity.value = Mathf.Lerp(digitalGlitchStrength, 0, elapsed / (transitionTime / 2f));
             yield return null;
         }
 

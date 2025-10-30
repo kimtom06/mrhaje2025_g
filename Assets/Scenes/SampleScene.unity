@@ -651,7 +651,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
-  - {fileID: 2100000, guid: 70c58ef268219844e95df32be0d0d25d, type: 2}
+  - {fileID: 2100000, guid: afaecd46d9491a24d837a3b102ca6859, type: 2}
 --- !u!1 &280929345
 GameObject:
   m_ObjectHideFlags: 0
@@ -1019,7 +1019,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
-  - {fileID: 2100000, guid: 70c58ef268219844e95df32be0d0d25d, type: 2}
+  - {fileID: 2100000, guid: afaecd46d9491a24d837a3b102ca6859, type: 2}
 --- !u!1 &298366727
 GameObject:
   m_ObjectHideFlags: 0
@@ -1145,7 +1145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
-  - {fileID: 2100000, guid: 7b38c4cb8ebd5984682a29276aa3a72b, type: 2}
+  - {fileID: 2100000, guid: afaecd46d9491a24d837a3b102ca6859, type: 2}
 --- !u!114 &298366733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1560,7 +1560,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
-  - {fileID: 2100000, guid: 7b38c4cb8ebd5984682a29276aa3a72b, type: 2}
+  - {fileID: 2100000, guid: afaecd46d9491a24d837a3b102ca6859, type: 2}
 --- !u!1 &521525093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1734,7 +1734,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
-  - {fileID: 2100000, guid: afd18fdce36092f4bbce615bc36a2135, type: 2}
+  - {fileID: 2100000, guid: afaecd46d9491a24d837a3b102ca6859, type: 2}
 --- !u!208 &559159545
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -1818,7 +1818,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
-  - {fileID: 2100000, guid: afd18fdce36092f4bbce615bc36a2135, type: 2}
+  - {fileID: 2100000, guid: afaecd46d9491a24d837a3b102ca6859, type: 2}
 --- !u!65 &565655911
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1960,7 +1960,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
-  - {fileID: 2100000, guid: afd18fdce36092f4bbce615bc36a2135, type: 2}
+  - {fileID: 2100000, guid: afaecd46d9491a24d837a3b102ca6859, type: 2}
 --- !u!65 &592847280
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7159,7 +7159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
-  - {fileID: 2100000, guid: afd18fdce36092f4bbce615bc36a2135, type: 2}
+  - {fileID: 2100000, guid: afaecd46d9491a24d837a3b102ca6859, type: 2}
 --- !u!208 &881232778
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -12266,7 +12266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
-  - {fileID: 2100000, guid: afd18fdce36092f4bbce615bc36a2135, type: 2}
+  - {fileID: 2100000, guid: afaecd46d9491a24d837a3b102ca6859, type: 2}
 --- !u!208 &1051327527
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -12350,7 +12350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
-  - {fileID: 2100000, guid: afd18fdce36092f4bbce615bc36a2135, type: 2}
+  - {fileID: 2100000, guid: afaecd46d9491a24d837a3b102ca6859, type: 2}
 --- !u!65 &1162729645
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17633,6 +17633,7 @@ MonoBehaviour:
   sprintModifier: 2.5
   jumpForce: 700
   max_health: 2
+  current_health: 0
   normalCam: {fileID: 330585545}
   groundDetector: {fileID: 1423784156}
   ground:
@@ -17642,14 +17643,15 @@ MonoBehaviour:
   rig: {fileID: 1387213712}
   environment: {fileID: 2042260732}
   sprintFOVModifier: 1.2
-  current_health: 0
-  jump: {fileID: 0}
   hackUI: {fileID: 1016164281}
-  currentWorld: 0
-  transitionTime: 1.5
+  jump: {fileID: 0}
+  lensStrength: -0.4
+  jitterStrength: 0.3
+  colorStrength: 0.2
+  digitalGlitchStrength: 0.2
+  transitionTime: 0.5
   v: {fileID: 521525095}
   l: {fileID: 0}
-  distortionStrength: -0.8
 --- !u!54 &1387213712
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17765,7 +17767,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
-  - {fileID: 2100000, guid: afd18fdce36092f4bbce615bc36a2135, type: 2}
+  - {fileID: 2100000, guid: afaecd46d9491a24d837a3b102ca6859, type: 2}
 --- !u!65 &1394089029
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27943,7 +27945,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
-  - {fileID: 2100000, guid: afd18fdce36092f4bbce615bc36a2135, type: 2}
+  - {fileID: 2100000, guid: afaecd46d9491a24d837a3b102ca6859, type: 2}
 --- !u!208 &1566864950
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -28492,7 +28494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
-  - {fileID: 2100000, guid: 70c58ef268219844e95df32be0d0d25d, type: 2}
+  - {fileID: 2100000, guid: afaecd46d9491a24d837a3b102ca6859, type: 2}
 --- !u!1 &1775283616
 GameObject:
   m_ObjectHideFlags: 0
@@ -28560,7 +28562,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
-  - {fileID: 2100000, guid: afd18fdce36092f4bbce615bc36a2135, type: 2}
+  - {fileID: 2100000, guid: afaecd46d9491a24d837a3b102ca6859, type: 2}
 --- !u!65 &1775283620
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29002,7 +29004,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materials:
   - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
-  - {fileID: 2100000, guid: 70c58ef268219844e95df32be0d0d25d, type: 2}
+  - {fileID: 2100000, guid: afaecd46d9491a24d837a3b102ca6859, type: 2}
 --- !u!1 &1954995632
 GameObject:
   m_ObjectHideFlags: 0
