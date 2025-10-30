@@ -12,7 +12,7 @@ public class Look : MonoBehaviour
 {
     #region Variables
 
-    public static bool cursorLocked = true;
+    public  bool cursorLocked = true;
 
     public Transform player;
     public Transform cams;
