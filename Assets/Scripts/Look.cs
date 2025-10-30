@@ -34,8 +34,9 @@ public class Look : MonoBehaviour
         camCenter = cams.localRotation;
 
 
-
-
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        
     }
     void Update()
     {
@@ -44,7 +45,7 @@ public class Look : MonoBehaviour
         SetY();
         SetX();
 
-        UpdateCursorLock();
+        //UpdateCursorLock();
 
     }
 
@@ -74,27 +75,21 @@ public class Look : MonoBehaviour
         player.localRotation = t_delta;
     }
 
-    void UpdateCursorLock()
+    public void UpdateCursorLock()
     {
-        if (cursorLocked)
+        if (!cursorLocked)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                cursorLocked = false;
-            }
+            cursorLocked = true;
         }
         else
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                cursorLocked = true;
-            }
+         
+            cursorLocked = false;
         }
     }
     #endregion

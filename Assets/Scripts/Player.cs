@@ -39,7 +39,9 @@ public class Player : MonoBehaviour
     private float baseFOV;
     public float sprintFOVModifier;
     public GameObject hackUI;
-
+    public Look lookScript;
+    public bool paused = false;
+    public GameObject pauseMenu;
     [Header("SFX")] 
     public AudioClip jump;
 
@@ -90,7 +92,11 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            togglePause();
+        }
+        if(paused) return;
         //Axis
         float t_hmove = Input.GetAxisRaw("Horizontal");
         float t_vmove = Input.GetAxisRaw("Vertical");
@@ -148,6 +154,12 @@ public class Player : MonoBehaviour
 
     }
 
+    public void togglePause()
+    {
+        paused = !paused;
+        pauseMenu.SetActive(paused);
+        lookScript.UpdateCursorLock();
+    }
     IEnumerator WarpTransition(int world)
     {
         isTransitioning = true;
@@ -194,7 +206,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-
+        if (paused) return;
 
         //Axis
 
@@ -250,6 +262,7 @@ public class Player : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        if(paused) return;  
         if (collision == null) return;
         if (collision.transform.CompareTag("Projectile"))
         {
